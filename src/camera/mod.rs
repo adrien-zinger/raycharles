@@ -9,6 +9,8 @@ use crate::elements::wall::Wall2d;
 mod casting;
 use casting::cast_wall_2d;
 mod view_line;
+use crate::statics::limits::VISION;
+mod view_wall;
 
 fn dist_2d(a: Point, b: Point) -> f64 {
   let x1 = a.x as f64;
@@ -32,8 +34,8 @@ fn get_dir_2d(pos: &Point, angle_deg: f32) -> (f32, f32) {
 
 pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canvas<Window>) {
   let pos = Point::new(player.x as i32, player.y as i32);
-  let mut angle_offset = -22.5;
-  while angle_offset < 22.5 {
+  let mut angle_offset = - VISION / 2.;
+  while angle_offset < VISION / 2. {
     let dir = get_dir_2d(&pos, player.pa as f32 + angle_offset);
     let mut dest = Point::new(0, 0);
     let mut dist = f64::MAX;
@@ -50,9 +52,8 @@ pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canva
       }
     }
     if dest.x != 0 && dest.y != 0 {
-      //canvas.set_draw_color(colors::LIGHT);
-      //canvas.draw_line(pos, dest).expect("Error writting line vision 2d");
       view_line::draw(&pos, &dest, canvas);
+      view_wall::draw(&pos, &dest, angle_offset, canvas);
     }
     angle_offset += 0.1;
   }

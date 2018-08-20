@@ -60,12 +60,12 @@ impl Player {
 
   pub fn dirx(&mut self, forward: bool) -> u32 {
     if forward {
-      return lim_pos((self.x as f32) + self.pdx * 5.0,
+      return lim_pos((self.x as f32) + self.pdx * 4.0,
         LIMITS_2D.0 as i32,
         LIMITS_2D.2 as i32,
       );
     } else {
-      return lim_pos((self.x as f32) - self.pdx * 5.0,
+      return lim_pos((self.x as f32) - self.pdx * 4.0,
         LIMITS_2D.0 as i32,
         LIMITS_2D.2 as i32,
       );
@@ -74,12 +74,12 @@ impl Player {
 
   pub fn diry(&mut self, forward: bool) -> u32 {
     if forward {
-      return lim_pos((self.y as f32) + self.pdy * 5.0,
+      return lim_pos((self.y as f32) + self.pdy * 2.0,
         LIMITS_2D.1 as i32,
         LIMITS_2D.3 as i32,
       );
     } else {
-      return lim_pos((self.y as f32) - self.pdy * 5.0,
+      return lim_pos((self.y as f32) - self.pdy * 2.0,
         LIMITS_2D.1 as i32,
         LIMITS_2D.3 as i32,
       );
@@ -96,7 +96,7 @@ impl Player {
 pub fn draw_player(player: &Player, canvas: &mut Canvas<Window>) {
   let x = player.x as i32;
   let y = player.y as i32;
-  let rad = 5;
+  let rad = 1;
   for i in (x - rad)..(x + rad) {
     for j in (y - rad)..(y + rad) {
       let dx = ((i-x) as i32).abs();

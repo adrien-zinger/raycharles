@@ -23,7 +23,7 @@ fn dist_2d(a: &Point, b: &Point) -> f64 {
 }
 
 fn attenuation(dist: f64) -> Color {
-  let mult = 10000.0 / (1.0 + 2.0 * dist + dist * dist);
+  let mult = 500.0 / (1.0 + 2.0 * dist + dist * dist);
   Color::RGB(
     (LIGHT.r as f64 * mult) as u8,
     (LIGHT.g as f64 * mult) as u8,

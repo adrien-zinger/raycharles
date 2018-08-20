@@ -11,6 +11,8 @@ mod elements;
 use elements::draw_map;
 use elements::draw_player;
 use elements::wall;
+use elements::tools::map_value;
+
 mod camera;
 mod parser;
 
@@ -39,8 +41,8 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
         canvas,
         map: map.clone(),
         player: elements::player::Player {
-            x: LIMITS_2D.0 + 100,
-            y: LIMITS_2D.0 + 100,
+            x: LIMITS_2D.0 + map_value(100, 0, LIMITS.0, LIMITS_2D.0, LIMITS_2D.2), 
+            y: LIMITS_2D.0 + map_value(100, 0, LIMITS.1, LIMITS_2D.1, LIMITS_2D.3),
             pdx: 0.5,
             pdy: 0.5,
             pa: 0
