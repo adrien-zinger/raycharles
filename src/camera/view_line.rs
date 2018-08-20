@@ -4,6 +4,7 @@ use sdl2::video::Window;
 use std::cmp::min;
 use std::cmp::max;
 use sdl2::pixels::Color;
+use std::vec::Vec;
 
 use crate::statics::colors::LIGHT;
 
@@ -30,42 +31,41 @@ fn attenuation(dist: f64) -> Color {
   )
 }
 
-fn draw_function(a: &Point, b: &Point, start: &Point, canvas: &mut Canvas<Window>) {
-  let m = get_m(a, b);
-  let s = a.y as f32 - m * a.x as f32;
-  let mut i = a.x as f32;
-  let offset = 4.0;
+fn get_points(x1: f32, x2: f32) -> Vec::<f32> {
+  let d = (x1 - x2).abs();
+  let offset = d / 64.0;
+  let mut ret: Vec::<f32> = Vec::new();
+  for i in 0..65 {
+    ret.push(x1 + i as f32 * offset);
+  }
+  ret
+}
+
+fn draw_function(
+    a: &Point,
+    b: &Point,
+    start: &Point,
+    canvas: &mut Canvas<Window>) {
   let mut p1 = Point::new(0,0);
   let mut p2 = Point::new(0,0);
-  let max = b.x as f32;
-  while i < max {
-    let x1 = i;
-    let y1 = m * x1 + s;
-    let x2 = i + offset;
-    let y2 = m * x2 + s;
-    p1.x = x1 as i32;
-    p1.y = y1 as i32;
-    p2.x = x2 as i32;
-    p2.y = y2 as i32;
+  let m = get_m(a, b);
+  let s = a.y as f32 - m * a.x as f32;
+  let points = get_points(a.x as f32, b.x as f32);
+  for i in 0..points.len() - 1 {
+    p1.x = (points[i]) as i32;
+    p1.y = (m * points[i] + s) as i32;
+    p2.x = points[i + 1] as i32;
+    p2.y = (m * points[i + 1] + s) as i32;
     canvas.set_draw_color(attenuation(dist_2d(&p1, start)));
     canvas.draw_line(p1, p2).expect("Error writting point");
-    if i + offset > max {
-      let x1 = x2;
-      let y1 = y2;
-      let x2 = max;
-      let y2 = m * x2 + s;
-      p1.x = x1 as i32;
-      p1.y = y1 as i32;
-      p2.x = x2 as i32;
-      p2.y = y2 as i32;
-      canvas.set_draw_color(attenuation(dist_2d(&p1, start)));
-      canvas.draw_line(p1, p2).expect("Error writting point");
-    }
-    i += offset;
   }
 }
 
-fn draw_vertical_line(a: &Point, b: &Point, start: &Point, canvas: &mut Canvas<Window>) {
+fn draw_vertical_line(
+    a: &Point,
+    b: &Point,
+    start: &Point,
+    canvas: &mut Canvas<Window>) {
   let mut i = a.y as f32;
   let offset = 4.0;
   let mut p1 = Point::new(0,0);
@@ -93,5 +93,4 @@ pub fn draw(a: &Point, b: &Point, canvas: &mut Canvas<Window>) {
   } else {
     draw_function(b, a, a, canvas);
   }
-  //1.0 / (1.0 + 1.00*d + 1.00*d2);
 }
