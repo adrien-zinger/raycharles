@@ -4,6 +4,7 @@ use crate::statics::limits::LIMITS;
 //use crate::statics::limits::LIMITS_2D;
 use crate::statics::colors::WALL;
 use crate::statics::colors::FLOOR;
+use crate::statics::colors::SKY;
 
 use std::cmp::min;
 use std::cmp::max;
@@ -40,7 +41,7 @@ fn fill_rect_from_center(x: i32, w: u32, h: u32, color: Color, canvas: &mut Canv
   //  y = LIMITS_2D.3 as i32;
   //}
   //let y2 = h2 - y as u32;
-  canvas.set_draw_color(FLOOR);
+  canvas.set_draw_color(SKY);
   canvas.fill_rect(Rect::new(x, 0, w, (middle - h2) as u32)).expect("Error writting rect");
   canvas.set_draw_color(color);
   canvas.fill_rect(Rect::new(x, (middle - h2) as i32, w, h2)).expect("Error writting rect");
@@ -53,13 +54,17 @@ fn draw_wall_slice(x: i32, w: f32, dist: f64, canvas: &mut Canvas<Window>) {
   let n = w / 10.0;
   for i in 0..10 {
     let offset = i as f32 * n;
-    fill_rect_from_center(x + offset as i32, (w + offset) as u32, LIMITS.1 / dist as u32 * 4, attenuation(dist), canvas);
+    fill_rect_from_center(
+      x + offset as i32, (w + offset) as u32,
+      if dist > 0.0 { LIMITS.1 / dist as u32 * 4 } else { LIMITS.1 },
+      if dist > 0.0 { attenuation(dist) } else { WALL }, canvas);
   }
 }
 
 pub fn draw(a: &Point, b: &Point, angle: f32, canvas: &mut Canvas<Window>) {
   let pa = angle + VISION / 2.0;
-  let x = map_value(pa as u32, 0, VISION as u32, 0, LIMITS.0);
-  let w = (LIMITS.0 as f32 / VISION) + 1.;
-  draw_wall_slice(x as i32, w, dist_2d(a, b), canvas);
+  let x = map_value(pa as u32, 0, VISION as u32, 0, 300);
+  let w = map_value((pa + 1.0) as u32, 0, VISION as u32, 0, 300) - x;
+  //let w = (LIMITS.0 as f32 / VISION) + 1.;
+  draw_wall_slice(x as i32, w as f32, dist_2d(a, b) * (angle as f64).to_radians().cos(), canvas);
 }

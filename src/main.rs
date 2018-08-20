@@ -59,21 +59,23 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
                 },
                 Event::KeyDown { keycode: Some(Keycode::Right), .. } => {
                     game.player.right();
+                    draw(&mut game);
                 },
                 Event::KeyDown { keycode: Some(Keycode::Left), .. } => {
                     game.player.left();
+                    draw(&mut game);
                 },
                 Event::KeyDown { keycode: Some(Keycode::Down), .. } => {
                     game.player.down();
+                    draw(&mut game);
                 },
                 Event::KeyDown { keycode: Some(Keycode::Up), .. } => {
                     game.player.up();
+                    draw(&mut game);
                 },
                 _ => {}
             }
         }
-
-        draw(&mut game);
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
 }
