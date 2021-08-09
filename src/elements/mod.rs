@@ -9,6 +9,6 @@ pub fn draw_player(player: &player::Player, canvas: &mut Canvas<Window>) {
   player::draw_player(player, canvas);
 }
 
-pub fn draw_map(canvas: &mut Canvas<Window>) {
-  map_view::draw_map(canvas);
+pub fn draw_map(map: &Vec::<Vec::<i8>>, canvas: &mut Canvas<Window>) {
+  map_view::draw_map(map, canvas);
 }
