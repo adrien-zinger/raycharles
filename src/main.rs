@@ -16,8 +16,8 @@ fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
     let mut player = elements::player::Player {
         x: 100,
         y: 100,
-        pdx: 1.0,
-        pdy: 1.0,
+        pdx: 0.5,
+        pdy: 0.5,
         pa: 0
     };
     let map: Vec::<Vec<i8>> = parser::read("./src/local");
