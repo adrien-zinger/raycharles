@@ -79,5 +79,5 @@ pub fn draw_player(player: &Player, canvas: &mut Canvas<Window>) {
     }
   }
   canvas.set_draw_color(Color::RGB(250, 250, 250));
-  //canvas.draw_line(Point::new(x, y), Point::new(x + player.pdx * 20.0) as i32), y + ((player.pdy * 20.0) as i32)));
+  canvas.draw_line(Point::new(x, y), Point::new(x + ((player.pdx * 20.0) as i32), y + ((player.pdy * 20.0) as i32)));
 }
