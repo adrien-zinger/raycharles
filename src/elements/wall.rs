@@ -8,8 +8,8 @@ use crate::elements::tools::map_value;
 
 #[derive(Debug, Clone)]
 pub struct Wall2d {
-  a: Point,
-  b: Point
+  pub a: Point,
+  pub b: Point
 }
 
 fn get_wall(x1: usize, y1: usize, x2: usize, y2: usize, map_width: usize, map_height: usize) -> Wall2d {

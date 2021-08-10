@@ -21,8 +21,7 @@ fn lim_pa(pa: &mut i32) {
   }
 }
 
-fn lim_pos(p: f32, max: i32) -> u32 {
-  println!("p {}", p);
+pub fn lim_pos(p: f32, max: i32) -> u32 {
   if p > max as f32 {
     return max as u32;
   } else if p < 0.0 {

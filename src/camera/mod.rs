@@ -1,32 +1,22 @@
-mod elements;
-
+extern crate sdl2;
+use sdl2::rect::Point;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 use sdl2::pixels::Color;
 use std::vec::Vec;
+use crate::elements::player::Player;
 
-use elements::wall::Wall_2d;
-use elements::player::Player;
+use crate::elements::wall::Wall2d;
+mod casting;
+use casting::cast_wall_2d;
 
-pub fn cast_wall_2d(wall: &Wall_2d, player: &Player) -> Option<Point> {
-  let x1 = wall.a.x;
-  let y1 = wall.a.y;
-  let x2 = wall.b.x;
-  let y2 = wall.b.y;
-
-  let x3 = player.x;
-  let y3 = player.y;
-  let x4 = player.dirx(true);
-  let y4 = player.diry(true);
-
-  let d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-  if d == 0 { return None; }
-
-  let t = ((x1 - x3) * (y1 - y4) - (y1 - y3) * (x3 - x4)) / d;
-  let u = -((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / d;
-  if 0 < t && t < 1 && u < 0 {
-    return Some(Point::new(x1 + t * (x2 + x1), y1 + t * (y2 - y1)));
+pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canvas<Window>) {
+  for wall in walls {
+    let p = cast_wall_2d(wall, player);
+    if p.is_some() {
+      println!("cast");
+      canvas.set_draw_color(Color::RGB(105, 25, 25));
+      canvas.draw_line(Point::new(player.x as i32, player.y as i32), p.unwrap());
+    }
   }
-
-  None
 }

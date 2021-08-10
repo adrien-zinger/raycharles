@@ -11,6 +11,7 @@ mod elements;
 use elements::draw_map;
 use elements::draw_player;
 use elements::wall;
+mod camera;
 mod parser;
 
 struct Game {
@@ -23,6 +24,7 @@ struct Game {
 fn draw(game: &mut Game) {
     draw_map(&game.map, &mut game.canvas);
     draw_player(&game.player, &mut game.canvas);
+    camera::draw_vision_2d(&game.walls_2d, &game.player, &mut game.canvas);
     wall::draw_walls_2d(&game.walls_2d, &mut game.canvas);
     game.canvas.present();
 }
