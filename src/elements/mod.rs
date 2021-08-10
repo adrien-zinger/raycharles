@@ -2,8 +2,10 @@ extern crate sdl2;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 
+mod tools;
 pub mod player;
 mod map_view;
+pub mod wall;
 
 pub fn draw_player(player: &player::Player, canvas: &mut Canvas<Window>) {
   player::draw_player(player, canvas);

@@ -10,6 +10,7 @@ use sdl2::video::Window;
 mod elements;
 use elements::draw_map;
 use elements::draw_player;
+use elements::wall;
 mod parser;
 
 fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
@@ -21,6 +22,8 @@ fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
         pa: 0
     };
     let map: Vec::<Vec<i8>> = parser::read("./src/local");
+    let walls_2d = wall::get_walls_2d(&map);
+
     'running: loop {
         for event in event_pump.poll_iter() {
             match event {
@@ -45,6 +48,7 @@ fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
         }
         draw_map(&map.clone(), &mut canvas);
         draw_player(&player, &mut canvas);
+        wall::draw_walls_2d(&walls_2d.clone(), &mut canvas);
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }

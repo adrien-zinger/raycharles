@@ -41,19 +41,38 @@ impl Player {
     self.pa +=5;
     self.set_pd();
   }
+
   pub fn right(&mut self) {
     self.pa -= 5;
     self.set_pd();
   }
+
   pub fn down(&mut self) {
-    self.x = lim_pos((self.x as f32) - self.pdx * 5.0, 800);
-    self.y = lim_pos((self.y as f32) - self.pdy * 5.0, 500);
-    println!("{} {}", self.x, self.y);
+    self.x = self.dirx(false);
+    self.y = self.diry(false);
   }
+
   pub fn up(&mut self) {
-    self.x = lim_pos((self.x as f32) + self.pdx * 5.0, 800);
-    self.y = lim_pos((self.y as f32) + self.pdy * 5.0, 500);
+    self.x = self.dirx(true);
+    self.y = self.diry(true);
   }
+
+  pub fn dirx(&mut self, forward: bool) -> u32 {
+    if forward {
+      return lim_pos((self.x as f32) + self.pdx * 5.0, 800);
+    } else {
+      return lim_pos((self.x as f32) - self.pdx * 5.0, 800);
+    }
+  }
+
+  pub fn diry(&mut self, forward: bool) -> u32 {
+    if forward {
+      return lim_pos((self.y as f32) + self.pdy * 5.0, 600);
+    } else {
+      return lim_pos((self.y as f32) - self.pdy * 5.0, 600);
+    }
+  }
+
   fn set_pd(&mut self) {
     lim_pa(&mut self.pa);
     self.pdx = rad(self.pa).cos() as f32;
@@ -77,5 +96,6 @@ pub fn draw_player(player: &Player, canvas: &mut Canvas<Window>) {
     }
   }
   canvas.set_draw_color(Color::RGB(105, 25, 25));
-  canvas.draw_line(Point::new(x, y), Point::new(x + ((player.pdx * 20.0) as i32), y + ((player.pdy * 20.0) as i32)));
+  canvas.draw_line(Point::new(x, y), Point::new(x + ((player.pdx * 20.0) as i32), y + ((player.pdy * 20.0) as i32)))
+    .expect("Error writting line view");
 }
