@@ -13,16 +13,34 @@ use elements::draw_player;
 use elements::wall;
 mod parser;
 
-fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
-    let mut player = elements::player::Player {
-        x: 100,
-        y: 100,
-        pdx: 0.5,
-        pdy: 0.5,
-        pa: 0
+struct Game {
+    canvas: Canvas<Window>,
+    walls_2d: Vec::<wall::Wall2d>,
+    map: Vec::<Vec<i8>>,
+    player: elements::player::Player
+}
+
+fn draw(game: &mut Game) {
+    draw_map(&game.map, &mut game.canvas);
+    draw_player(&game.player, &mut game.canvas);
+    wall::draw_walls_2d(&game.walls_2d, &mut game.canvas);
+    game.canvas.present();
+}
+
+fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
+    let map = parser::read("./src/local");
+    let mut game = Game {
+        canvas,
+        map: map.clone(),
+        player: elements::player::Player {
+            x: 100,
+            y: 100,
+            pdx: 0.5,
+            pdy: 0.5,
+            pa: 0
+        },
+        walls_2d: wall::get_walls_2d(&map)
     };
-    let map: Vec::<Vec<i8>> = parser::read("./src/local");
-    let walls_2d = wall::get_walls_2d(&map);
 
     'running: loop {
         for event in event_pump.poll_iter() {
@@ -32,24 +50,21 @@ fn run(mut canvas: Canvas<Window>, mut event_pump: EventPump) {
                     break 'running
                 },
                 Event::KeyDown { keycode: Some(Keycode::Right), .. } => {
-                    player.right();
+                    game.player.right();
                 },
                 Event::KeyDown { keycode: Some(Keycode::Left), .. } => {
-                    player.left();
+                    game.player.left();
                 },
                 Event::KeyDown { keycode: Some(Keycode::Down), .. } => {
-                    player.down();
+                    game.player.down();
                 },
                 Event::KeyDown { keycode: Some(Keycode::Up), .. } => {
-                    player.up();
+                    game.player.up();
                 },
                 _ => {}
             }
         }
-        draw_map(&map.clone(), &mut canvas);
-        draw_player(&player, &mut canvas);
-        wall::draw_walls_2d(&walls_2d.clone(), &mut canvas);
-        canvas.present();
+        draw(&mut game);
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
 }
