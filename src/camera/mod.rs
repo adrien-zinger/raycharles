@@ -23,7 +23,7 @@ fn dist_2d(a: Point, b: Point) -> f64 {
   sqr.abs().sqrt()
 }
 
-fn get_dir_2d(pos: &Point, angle_deg: f32) -> Point {
+fn get_dir_2d(pos: &Point, angle_deg: f32) -> (f32, f32) {
   let mut a = angle_deg;
   let x = pos.x as f32;
   let y = pos.y as f32;
@@ -31,7 +31,7 @@ fn get_dir_2d(pos: &Point, angle_deg: f32) -> Point {
   else if a < 0.0 { a += 360.0; }
   let dirx = x + a.to_radians().cos() * 10.0;
   let diry = y - a.to_radians().sin() * 10.0;
-  Point::new(dirx.round() as i32, diry.round() as i32)
+  (dirx, diry)
 }
 
 pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canvas<Window>) {
@@ -42,7 +42,7 @@ pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canva
     let mut dest = Point::new(0, 0);
     let mut dist = f64::MAX;
     for wall in walls {
-      let p = cast_wall_2d(wall, &pos, &dir);
+      let p = cast_wall_2d(wall, &pos, &dir.0, &dir.1);
       if p.is_some() {
         let wall_cast = p.unwrap();
         let d = dist_2d(pos, wall_cast);

@@ -44,7 +44,6 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
         walls_2d: wall::get_walls_2d(&map)
     };
 
-    let mut flag = 0;
     'running: loop {
         for event in event_pump.poll_iter() {
             match event {
@@ -67,10 +66,8 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
                 _ => {}
             }
         }
-        if flag == 0 {
-            draw(&mut game);
-            //flag = 1;
-        }
+
+        draw(&mut game);
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
 }
