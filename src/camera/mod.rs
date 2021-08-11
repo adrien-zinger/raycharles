@@ -2,17 +2,13 @@ extern crate sdl2;
 use sdl2::rect::Point;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
-use sdl2::pixels::Color;
 use std::vec::Vec;
 use crate::elements::player::Player;
 
 use crate::elements::wall::Wall2d;
 mod casting;
 use casting::cast_wall_2d;
-
-//pub fn map(s: f64, a1: f64, a2: f64, b1: f64, b2: f64) -> f64 {
-//  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
-//}
+use crate::statics::colors;
 
 fn dist_2d(a: Point, b: Point) -> f64 {
   let x1 = a.x as f64;
@@ -54,7 +50,7 @@ pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canva
       }
     }
     if dest.x != 0 && dest.y != 0 {
-      canvas.set_draw_color(Color::RGB(105, 25, 25));
+      canvas.set_draw_color(colors::LIGHT);
       canvas.draw_line(pos, dest).expect("Error writting line vision 2d");
     }
     angle_offset += 0.1;

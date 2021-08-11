@@ -2,10 +2,10 @@ extern crate sdl2;
 use sdl2::rect::Point;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
-use sdl2::pixels::Color;
 use std::f64::consts::PI;
 
-use crate::s_limits::LIMITS_2D;
+use crate::statics::limits::LIMITS_2D;
+use crate::statics::colors;
 
 pub struct Player {
   pub x: u32,
@@ -102,12 +102,9 @@ pub fn draw_player(player: &Player, canvas: &mut Canvas<Window>) {
       let dx = ((i-x) as i32).abs();
       let dy = ((j-y) as i32).abs();
       if dx*dx + dy*dy <= rad*rad {
-        canvas.set_draw_color(Color::RGB(105, 25, 25));
+        canvas.set_draw_color(colors::PLAYER);
         canvas.draw_point(Point::new(i, j)).expect("Error writting point");
       }
     }
   }
-  canvas.set_draw_color(Color::RGB(105, 25, 25));
-  canvas.draw_line(Point::new(x, y), Point::new(x + ((player.pdx * 20.0) as i32), y + ((player.pdy * 20.0) as i32)))
-    .expect("Error writting line view");
 }

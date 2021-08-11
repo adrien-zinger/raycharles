@@ -14,9 +14,9 @@ use elements::wall;
 mod camera;
 mod parser;
 
-mod s_limits;
-use s_limits::LIMITS;
-use s_limits::LIMITS_2D;
+mod statics;
+use statics::limits::LIMITS;
+use statics::limits::LIMITS_2D;
 
 struct Game {
     canvas: Canvas<Window>,

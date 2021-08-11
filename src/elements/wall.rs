@@ -2,7 +2,9 @@ extern crate sdl2;
 use sdl2::rect::Point;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
-use sdl2::pixels::Color;
+
+use crate::statics::limits::LIMITS_2D;
+use crate::statics::colors;
 
 #[derive(Debug, Clone)]
 pub struct Wall2d {
@@ -10,7 +12,6 @@ pub struct Wall2d {
   pub b: Point
 }
 
-use crate::s_limits::LIMITS_2D;
 use crate::elements::tools::map_value;
 
 fn get_wall_2d(x1: usize, y1: usize, x2: usize, y2: usize, map_width: usize, map_height: usize) -> Wall2d {
@@ -40,7 +41,7 @@ pub fn get_walls_2d(map: &Vec::<Vec::<i8>>) -> Vec<Wall2d> {
 }
 
 pub fn draw_walls_2d(walls: &Vec<Wall2d>, canvas: &mut Canvas<Window>) {
-  canvas.set_draw_color(Color::RGB(65, 85, 25));
+  canvas.set_draw_color(colors::WALL);
   for wall in walls {
     canvas.draw_line(wall.a, wall.b)
       .expect("Error writting wall");
