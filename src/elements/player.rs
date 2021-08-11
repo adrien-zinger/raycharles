@@ -76,7 +76,6 @@ impl Player {
     lim_pa(&mut self.pa);
     self.pdx = rad(self.pa).cos() as f32;
     self.pdy = -rad(self.pa).sin() as f32;
-    println!("pd x y {} {} {}", rad(self.pa).cos(), self.pdx, self.pdy);
   }
 }
 

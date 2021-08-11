@@ -32,11 +32,6 @@ pub fn get_walls_2d(map: &Vec::<Vec::<i8>>) -> Vec<Wall2d> {
         ret.push(get_wall(x + 1, y, x + 1, y + 1, map[y].len(), map.len()));
         ret.push(get_wall(x + 1, y + 1, x, y + 1, map[y].len(), map.len()));
         ret.push(get_wall(x, y + 1, x, y, map[y].len(), map.len()));
-        if x == 0 && y == 0 {
-          let w = get_wall(x, y + 1, x + 1, y + 1, map[y].len(), map.len());
-          println!("{} {}", w.a.x, w.a.y);
-          println!("{} {}", w.b.x, w.b.y);
-        }
       }
     }
   }
