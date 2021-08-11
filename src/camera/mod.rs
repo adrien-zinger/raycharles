@@ -19,7 +19,7 @@ fn dist_2d(a: Point, b: Point) -> f64 {
   let y1 = a.y as f64;
   let x2 = b.x as f64;
   let y2 = b.y as f64;
-  let sqr = (x2 - x1) * (x2 - x1) - (y2 - y1) * (y2 - y1);
+  let sqr = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
   sqr.abs().sqrt()
 }
 
