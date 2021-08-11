@@ -5,6 +5,8 @@ use sdl2::video::Window;
 use sdl2::pixels::Color;
 use std::f64::consts::PI;
 
+use crate::s_limits::LIMITS_2D;
+
 pub struct Player {
   pub x: u32,
   pub y: u32,
@@ -21,11 +23,11 @@ fn lim_pa(pa: &mut i32) {
   }
 }
 
-pub fn lim_pos(p: f32, max: i32) -> u32 {
+pub fn lim_pos(p: f32, min: i32, max: i32) -> u32 {
   if p > max as f32 {
     return max as u32;
-  } else if p < 0.0 {
-    return 0;
+  } else if p < min as f32 {
+    return min as u32;
   } else {
     return p as u32;
   }
@@ -58,17 +60,29 @@ impl Player {
 
   pub fn dirx(&mut self, forward: bool) -> u32 {
     if forward {
-      return lim_pos((self.x as f32) + self.pdx * 5.0, 800);
+      return lim_pos((self.x as f32) + self.pdx * 5.0,
+        LIMITS_2D.0 as i32,
+        LIMITS_2D.2 as i32,
+      );
     } else {
-      return lim_pos((self.x as f32) - self.pdx * 5.0, 800);
+      return lim_pos((self.x as f32) - self.pdx * 5.0,
+        LIMITS_2D.0 as i32,
+        LIMITS_2D.2 as i32,
+      );
     }
   }
 
   pub fn diry(&mut self, forward: bool) -> u32 {
     if forward {
-      return lim_pos((self.y as f32) + self.pdy * 5.0, 600);
+      return lim_pos((self.y as f32) + self.pdy * 5.0,
+        LIMITS_2D.1 as i32,
+        LIMITS_2D.3 as i32,
+      );
     } else {
-      return lim_pos((self.y as f32) - self.pdy * 5.0, 600);
+      return lim_pos((self.y as f32) - self.pdy * 5.0,
+        LIMITS_2D.1 as i32,
+        LIMITS_2D.3 as i32,
+      );
     }
   }
 

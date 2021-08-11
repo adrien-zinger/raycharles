@@ -14,6 +14,10 @@ use elements::wall;
 mod camera;
 mod parser;
 
+mod s_limits;
+use s_limits::LIMITS;
+use s_limits::LIMITS_2D;
+
 struct Game {
     canvas: Canvas<Window>,
     walls_2d: Vec::<wall::Wall2d>,
@@ -35,8 +39,8 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
         canvas,
         map: map.clone(),
         player: elements::player::Player {
-            x: 100,
-            y: 100,
+            x: LIMITS_2D.0 + 100,
+            y: LIMITS_2D.0 + 100,
             pdx: 0.5,
             pdy: 0.5,
             pa: 0
@@ -75,7 +79,7 @@ fn run(canvas: Canvas<Window>, mut event_pump: EventPump) {
 pub fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
-    let window = video_subsystem.window("rust-sdl2 demo", 800, 600)
+    let window = video_subsystem.window("rust-sdl2 demo", LIMITS.0, LIMITS.1)
         .position_centered()
         .build()
         .unwrap();

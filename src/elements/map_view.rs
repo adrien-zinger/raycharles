@@ -6,13 +6,14 @@ use sdl2::render::Canvas;
 use std::vec::Vec;
 
 use crate::elements::tools::map_value;
+use crate::s_limits::LIMITS_2D;
 
 fn get_rect(x: usize, y: usize, mapw: usize, maph: usize) -> Rect {
   Rect::new(
-    map_value(x as u32, 0, mapw as u32, 0, 800) as i32,
-    map_value(y as u32, 0, maph as u32, 0, 600) as i32,
-    map_value((x as u32) + 1, 0, mapw as u32, 0, 800) as u32,
-    map_value((y as u32) + 1, 0, maph as u32, 0, 600) as u32
+    map_value(x as u32, 0, mapw as u32, LIMITS_2D.0, LIMITS_2D.2) as i32,
+    map_value(y as u32, 0, maph as u32, LIMITS_2D.1, LIMITS_2D.3) as i32,
+    map_value((x as u32) + 1, 0, mapw as u32, LIMITS_2D.0, LIMITS_2D.2) as u32,
+    map_value((y as u32) + 1, 0, maph as u32, LIMITS_2D.1, LIMITS_2D.3) as u32
   )
 }
 
