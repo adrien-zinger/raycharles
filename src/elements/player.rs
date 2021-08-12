@@ -39,12 +39,12 @@ fn rad(a: i32) -> f64 {
 
 impl Player {
   pub fn left(&mut self) {
-    self.pa +=5;
+    self.pa += 1;
     self.set_pd();
   }
 
   pub fn right(&mut self) {
-    self.pa -= 5;
+    self.pa -= 1;
     self.set_pd();
   }
 

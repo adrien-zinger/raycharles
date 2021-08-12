@@ -32,8 +32,8 @@ fn get_dir_2d(pos: &Point, angle_deg: f32) -> (f32, f32) {
 
 pub fn draw_vision_2d(walls: &Vec::<Wall2d>, player: &Player, canvas: &mut Canvas<Window>) {
   let pos = Point::new(player.x as i32, player.y as i32);
-  let mut angle_offset = -20.5;
-  while angle_offset < 20.5 {
+  let mut angle_offset = -22.5;
+  while angle_offset < 22.5 {
     let dir = get_dir_2d(&pos, player.pa as f32 + angle_offset);
     let mut dest = Point::new(0, 0);
     let mut dist = f64::MAX;
